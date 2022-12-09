@@ -1,9 +1,9 @@
+package wordle.utils;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * Utilities Class
- * <p>
- * A class full of utilities functions
+ * A class of utilities functions
  */
 public class Util {
     public static final long KILOBYTE = 1024L;

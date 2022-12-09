@@ -1,2 +1,2 @@
 #!/bin/bash
-javac -g -cp "lib/*" -d bin/ src/*.java
+javac -g -cp "lib/*" -d bin/ src/wordle/*/*.java
