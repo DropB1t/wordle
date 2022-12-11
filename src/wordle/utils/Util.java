@@ -1,7 +1,5 @@
 package wordle.utils;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 /**
  * A class of utilities functions
  */
@@ -35,23 +33,11 @@ public class Util {
         // Calculate the used memory
         long memory = runtime.totalMemory() - runtime.freeMemory();
 
-        System.out.print(ConsoleColors.YELLOW);
-        System.out.println("Used memory in bytes: " + memory);
+        System.out.print("\n" + ConsoleColors.YELLOW);
+        //System.out.println("Used memory in bytes: " + memory);
         System.out.println("Used memory in kilobytes: " + bytesToKilobytes(memory));
-        //System.out.println("Used memory in megabytes: " + bytesToMegabytes(memory));
+        System.out.println("Used memory in megabytes: " + bytesToMegabytes(memory));
         System.out.print(ConsoleColors.RESET);
-    }
-
-    public static int getRandomInt() {
-        return ThreadLocalRandom.current().nextInt();
-    }
-
-    public static int getRandomInt(int bound) {
-        return ThreadLocalRandom.current().nextInt(++bound);
-    }
-
-    public static int getRandomInt(int origin, int bound) {
-        return ThreadLocalRandom.current().nextInt(origin, ++bound);
     }
 
     public class ConsoleColors {

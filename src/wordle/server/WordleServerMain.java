@@ -3,6 +3,7 @@ package wordle.server;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.concurrent.ExecutorService;
 
 import wordle.utils.*;
 
@@ -13,11 +14,21 @@ public class WordleServerMain {
     private static int port;
     private static int mcport;
     private static int poolsize;
+    private static long seed;
+    private static long sessionDuration; // In min
 
     public static void main(String[] args) {
-        loadProps();
 
-        
+        loadProps();
+        ExecutorService workersPool = new WorkersThreadPool(poolsize);
+        GameSession game = new GameSession(seed, sessionDuration);
+
+        try (ShareController shareSocket = new ShareController(mcgroup, mcport); ServerController server = new ServerController(host, port, workersPool, shareSocket, game)) {
+            Runtime.getRuntime().addShutdownHook(new ServerShutdownHook(server, workersPool));
+            server.run();
+        } catch (Exception e) {
+            Util.printException(e);
+        }
 
     }
 
@@ -35,6 +46,8 @@ public class WordleServerMain {
             port = Integer.parseInt(prop.getProperty("port"));
             mcport = Integer.parseInt(prop.getProperty("mcport"));
             poolsize = Integer.parseInt(prop.getProperty("poolsize"));
+            seed = Long.parseLong(prop.getProperty("seed"));
+            sessionDuration = Long.parseLong(prop.getProperty("session"));
         } catch (NumberFormatException e) {
             System.err.println("A config field is not parsable to an integer");
             System.exit(1);
@@ -44,7 +57,7 @@ public class WordleServerMain {
         System.out.println(" Host: " + host);
         System.out.println(" Port: " + port);
         System.out.println(" MusticastGroup: " + mcgroup);
-        System.out.println(" MulticastPort:"  + mcport);
+        System.out.println(" MulticastPort:" + mcport);
         System.out.println(" ThreadPoolSize: " + poolsize);
         System.out.println("[=================]\n");
         System.out.print(Util.ConsoleColors.RESET);

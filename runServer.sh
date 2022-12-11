@@ -1,0 +1,1 @@
+java -cp "lib/*":bin/ wordle.server.WordleServerMain
