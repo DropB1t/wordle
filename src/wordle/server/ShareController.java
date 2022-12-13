@@ -37,6 +37,4 @@ public class ShareController implements AutoCloseable {
         shareSocket.close();
     }
 
-    
-
 }

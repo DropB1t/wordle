@@ -13,16 +13,8 @@ public class Response {
         return code;
     }
 
-    public void setCode(Code code) {
-        this.code = code;
-    }
-
     public String getPayload() {
         return payload;
-    }
-
-    public void setPayload(String payload) {
-        this.payload = payload;
     }
 
     @Override

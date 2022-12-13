@@ -8,12 +8,8 @@ import java.util.Scanner;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
 import com.google.gson.TypeAdapter;
-import com.google.gson.reflect.TypeToken;
 
-import wordle.utils.GsonByteBufferTypeAdapter;
 import wordle.utils.OptType;
 import wordle.utils.Request;
 import wordle.utils.Response;
@@ -33,29 +29,32 @@ public class WordleClientMain {
         .create();
 
         try (SocketChannel client = SocketChannel.open(new InetSocketAddress("localhost", 10080))) {
-            String res = null;
             Scanner scanner = new Scanner(System.in);
-            ByteBuffer outBuffer = ByteBuffer.allocate(1024);
+            ByteBuffer buff = ByteBuffer.allocateDirect(1024);
 
             while (true) {
                 String msg = getInput(scanner);
 
-                String json = gson.toJson(new Request(OptType.Login, msg), Request.class);
-                //System.out.println(json);
-                client.write(ByteBuffer.wrap(json.getBytes()));
+                buff.clear();
+                Request req = new Request(OptType.Register, msg, "1234");
+                String jsonReq = gson.toJson(req, Request.class);
+                buff.put(jsonReq.getBytes());
+                buff.flip();
+                client.write(buff);
 
                 if (msg.equals("exit()"))
                     break;
 
-                outBuffer.clear();
-                int read = client.read(outBuffer);
+                buff.clear();
+                int read = client.read(buff);
                 
-                outBuffer.flip();
+                buff.flip();
                 byte [] strBytes = new byte[read];
-                outBuffer.get(strBytes);
+                buff.get(strBytes);
 
-                res = new String(strBytes);                
-                System.out.println(res);
+                String jsonRes = new String(strBytes);
+                Response res = gson.fromJson(jsonRes, Response.class);            
+                System.out.println(res.toString());
             }
 
         } catch (IOException e) {

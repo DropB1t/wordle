@@ -52,11 +52,13 @@ public class GameSession {
         this.setSecretWord();
     }
 
-    synchronized public void updateSession() {
+    synchronized public boolean updateSession() {
         long currentTime = System.currentTimeMillis();
         if ((currentTime - this.sessionStart) > this.sessionDuration) {
             this.setSecretWord();
+            return true;
         }
+        return false;
     }
 
     synchronized public boolean checkGuessWord(String guess){
