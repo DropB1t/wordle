@@ -21,7 +21,7 @@ public class ShareController implements AutoCloseable {
         shareSocket.joinGroup(group);
     }
 
-    public void send(String msg){
+    synchronized public void send(String msg){
         try {
             this.outBuffer = msg.getBytes("UTF-8");
             this.datagram = new DatagramPacket(outBuffer, outBuffer.length);

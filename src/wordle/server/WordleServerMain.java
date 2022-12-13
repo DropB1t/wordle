@@ -21,9 +21,9 @@ public class WordleServerMain {
 
         loadProps();
         ExecutorService workersPool = new WorkersThreadPool(poolsize);
-        GameSession game = new GameSession(seed, sessionDuration);
+        WordManager wordSession = new WordManager(seed, sessionDuration);
 
-        try (ShareController shareSocket = new ShareController(mcgroup, mcport); ServerController server = new ServerController(host, port, workersPool, shareSocket, game)) {
+        try (ShareController shareSocket = new ShareController(mcgroup, mcport); ServerController server = new ServerController(host, port, workersPool, shareSocket, wordSession)) {
             Runtime.getRuntime().addShutdownHook(new ServerShutdownHook(server, workersPool));
             server.run();
         } catch (Exception e) {
@@ -59,6 +59,8 @@ public class WordleServerMain {
         System.out.println(" MusticastGroup: " + mcgroup);
         System.out.println(" MulticastPort:" + mcport);
         System.out.println(" ThreadPoolSize: " + poolsize);
+        System.out.println(" SessionDuration: " + sessionDuration);
+        System.out.println(" Seed: " + seed);
         System.out.println("[=================]\n");
         System.out.print(Util.ConsoleColors.RESET);
     }

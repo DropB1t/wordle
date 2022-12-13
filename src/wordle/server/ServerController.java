@@ -45,12 +45,12 @@ public class ServerController implements AutoCloseable {
     private final ByteBuffer buff;
 
 
-    private final GameSession game;
+    private final WordManager wordSession;
 
     private final Gson gson;
 
-    public ServerController(String host, int port, ExecutorService workersPool, ShareController shareSocket, GameSession game) throws IOException {
-        this.game = game;
+    public ServerController(String host, int port, ExecutorService workersPool, ShareController shareSocket, WordManager game) throws IOException {
+        this.wordSession = game;
         this.workersPool = workersPool;
         this.shareSocket = shareSocket;
         this.buff = ByteBuffer.allocateDirect(1024);
@@ -97,10 +97,11 @@ public class ServerController implements AutoCloseable {
                 }
             }
 
-            if (game.updateSession())
-                synchronized(loggedUsers){ loggedUsers.forEach((k,v) -> v.setPlaying(false)); }
+            if (wordSession.updateSession())
+                synchronized(loggedUsers){ loggedUsers.forEach((id,user) -> user.setPlaying(false)); }
 
             connectedClients.keySet().removeIf((socketChannel) -> !socketChannel.isOpen());
+            synchronized(loggedUsers){loggedUsers.keySet().removeIf((id) -> !connectedClients.containsValue(id));}
         }
     }
 
@@ -159,7 +160,6 @@ public class ServerController implements AutoCloseable {
         try {
             buff.clear();
             int data = socket.read(buff);
-
             if (data < 0) {
                 closeSocket(socket);
                 return;
@@ -171,7 +171,9 @@ public class ServerController implements AutoCloseable {
             buff.get(strBytes);
             String jsonReq = new String(strBytes);
             Request req = gson.fromJson(jsonReq, Request.class);
-            Future<Response> f = workersPool.submit(new Worker(req, clientID, loggedUsers, game, shareSocket));
+
+            Future<Response> f = workersPool.submit(new Worker(req, clientID, loggedUsers, wordSession, shareSocket));
+
             key.attach(f);
             System.out.println(req.toString());
             

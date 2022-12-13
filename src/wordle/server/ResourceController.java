@@ -15,15 +15,21 @@ import wordle.utils.Util;
 public class ResourceController {
     private static final String folder = "./resources/";
 
-    private final TypeAdapter<User> userAdapter;
     private final Gson gson;
     private MessageDigest digest;
 
     public ResourceController() {
-        userAdapter = new Gson().getAdapter(User.class);
+        TypeAdapter<User> userAdapter = new Gson().getAdapter(User.class);
+        TypeAdapter<GameSession> gameAdapter = new Gson().getAdapter(GameSession.class);
+
         gson = new GsonBuilder()
+        .registerTypeAdapter(User.class, userAdapter)
+        .registerTypeAdapter(GameSession.class, gameAdapter)
+        .enableComplexMapKeySerialization()
+        .serializeNulls()
         .setPrettyPrinting()
         .create();
+
         try {
             digest = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException e) {

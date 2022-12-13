@@ -13,14 +13,14 @@ public class Worker implements Callable<Response> {
     private final ShareController shareSocket;
     private final Integer clientID;
     private final Request req;
-    private final GameSession game;
+    private final WordManager wordSession;
 
-    public Worker(Request req, Integer clientID, ConcurrentHashMap<Integer, User> loggedUsers, GameSession game, ShareController shareSocket) {
+    public Worker(Request req, Integer clientID, ConcurrentHashMap<Integer, User> loggedUsers, WordManager game, ShareController shareSocket) {
         this.req = req;
         this.clientID = clientID;
         this.loggedUsers = loggedUsers;
         this.shareSocket = shareSocket;
-        this.game = game;
+        this.wordSession = game;
     }
 
     @Override

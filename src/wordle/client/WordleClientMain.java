@@ -1,75 +1,46 @@
 package wordle.client;
 
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.nio.ByteBuffer;
-import java.nio.channels.SocketChannel;
-import java.util.Scanner;
+import java.util.Properties;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
-
-import wordle.utils.OptType;
-import wordle.utils.Request;
-import wordle.utils.Response;
 import wordle.utils.Util;
 
 public class WordleClientMain {
+    private static final String config = "client.config";
+    private static String host;
+    private static String mcgroup;
+    private static int port;
+    private static int mcport;
+
     public static void main(String[] args) {
-
-        TypeAdapter<Request> reqAdapter = new Gson().getAdapter(Request.class);
-        TypeAdapter<Response> resAdapter = new Gson().getAdapter(Response.class);
-
-        final Gson gson = new GsonBuilder()
-        .registerTypeAdapter(Request.class, reqAdapter)
-        .registerTypeAdapter(Response.class, resAdapter)
-        .enableComplexMapKeySerialization()
-        .serializeNulls()
-        .create();
-
-        try (SocketChannel client = SocketChannel.open(new InetSocketAddress("localhost", 10080))) {
-            Scanner scanner = new Scanner(System.in);
-            ByteBuffer buff = ByteBuffer.allocateDirect(1024);
-
-            while (true) {
-                String msg = getInput(scanner);
-
-                buff.clear();
-                Request req = new Request(OptType.Register, msg, "1234");
-                String jsonReq = gson.toJson(req, Request.class);
-                buff.put(jsonReq.getBytes());
-                buff.flip();
-                client.write(buff);
-
-                if (msg.equals("exit()"))
-                    break;
-
-                buff.clear();
-                int read = client.read(buff);
-                
-                buff.flip();
-                byte [] strBytes = new byte[read];
-                buff.get(strBytes);
-
-                String jsonRes = new String(strBytes);
-                Response res = gson.fromJson(jsonRes, Response.class);            
-                System.out.println(res.toString());
-            }
-
+        loadProps();
+        try (ShareWatcher watcher = new ShareWatcher(mcgroup, mcport); Client client = new Client(host, port, watcher)) {
+            Runtime.getRuntime().addShutdownHook(new ClientShutdownHook(client));
+            client.run();
         } catch (IOException e) {
+            Util.printException(e);
+        } catch (Exception e) {
             Util.printException(e);
         }
     }
-    
-    private static String getInput(Scanner scanner) {
-        String req;
-        do {
-            System.out.print(">");
-            req = scanner.nextLine();
-            if (req.isEmpty())
-                System.out.println(Util.ConsoleColors.RED + "Empty echo messagges are not allowed" + Util.ConsoleColors.RESET);
-        } while (req.isEmpty());
-        return req;
+
+    private static void loadProps() {
+        Properties prop = new Properties();
+        try (FileInputStream ficonfig = new FileInputStream(config)) {
+            prop.load(ficonfig);
+        } catch (IOException e) {
+            Util.printException(e);
+            System.exit(1);
+        }
+        try {
+            host = prop.getProperty("host");
+            mcgroup = prop.getProperty("mcgroup");
+            port = Integer.parseInt(prop.getProperty("port"));
+            mcport = Integer.parseInt(prop.getProperty("mcport"));
+        } catch (NumberFormatException e) {
+            System.err.println("A config field is not parsable to an integer");
+            System.exit(1);
+        }
     }
 }
