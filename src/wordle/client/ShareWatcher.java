@@ -44,7 +44,7 @@ public class ShareWatcher implements Runnable, AutoCloseable {
                 sharedList.add(res);
                 datagram.setLength(buff.length);
             } catch (SocketException e) {
-                System.out.println("Leaving Multicast Group ...");
+                //System.out.println("Leaving Multicast Group ...");
             } catch (IOException e) {
                 Util.printException(e);
             }

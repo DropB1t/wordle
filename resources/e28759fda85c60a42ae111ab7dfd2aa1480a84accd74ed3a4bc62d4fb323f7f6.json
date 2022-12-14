@@ -2,16 +2,16 @@
   "username": "Yura",
   "psw": "fe2592b42a727e977f055947385b709cc82b16b9a87f88c6abf3900d65d0cdc3",
   "game": {
-    "currentSecretWord": "commingler",
-    "secretWordNum": 3,
+    "currentSecretWord": "",
+    "secretWordNum": 0,
     "guess": 0,
     "guessTable": "",
     "share": ""
   },
-  "playing": true,
+  "playing": false,
   "lastGuessedWord": false,
-  "gamesPlayed": 1,
-  "gamesWon": 1,
+  "gamesPlayed": 3,
+  "gamesWon": 2,
   "lastStreak": 1,
   "bestStreak": 1
 }

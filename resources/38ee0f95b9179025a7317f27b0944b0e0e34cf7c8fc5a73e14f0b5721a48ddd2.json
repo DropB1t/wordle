@@ -2,16 +2,16 @@
   "username": "DropBit",
   "psw": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
   "game": {
-    "currentSecretWord": "confusably",
-    "secretWordNum": 1,
-    "guess": 4,
-    "guessTable": "\u001b[0;32mc \u001b[0;32mo \u001b[0;32mn \u001b[0;32mf \u001b[0;33mo \u001b[0;37mr \u001b[0;37mm \u001b[0;33ma \u001b[0;37mt \u001b[0;37me\u001b[0m\n\u001b[0;32mc \u001b[0;32mo \u001b[0;32mn \u001b[0;37mg \u001b[0;37mr \u001b[0;37me \u001b[0;33ms \u001b[0;33ms \u001b[0;37me \u001b[0;37mr\u001b[0m\n\u001b[0;32mc \u001b[0;32mo \u001b[0;32mn \u001b[0;32mf \u001b[0;32mu \u001b[0;32ms \u001b[0;32ma \u001b[0;32mb \u001b[0;32ml \u001b[0;37me\u001b[0m\n\u001b[0;32mc \u001b[0;32mo \u001b[0;32mn \u001b[0;32mf \u001b[0;32mu \u001b[0;32ms \u001b[0;32ma \u001b[0;32mb \u001b[0;32ml \u001b[0;32my\u001b[0m\n",
-    "share": "\u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;33m█ \u001b[0;37m█ \u001b[0;37m█ \u001b[0;33m█ \u001b[0;37m█ \u001b[0;37m█\u001b[0m\n\n\u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;37m█ \u001b[0;37m█ \u001b[0;37m█ \u001b[0;33m█ \u001b[0;33m█ \u001b[0;37m█ \u001b[0;37m█\u001b[0m\n\n\u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;37m█\u001b[0m\n\n\u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█\u001b[0m\n\n"
+    "currentSecretWord": "hydrometry",
+    "secretWordNum": 2,
+    "guess": 0,
+    "guessTable": "",
+    "share": ""
   },
   "playing": false,
   "lastGuessedWord": true,
-  "gamesPlayed": 5,
-  "gamesWon": 4,
-  "lastStreak": 2,
-  "bestStreak": 2
+  "gamesPlayed": 20,
+  "gamesWon": 9,
+  "lastStreak": 0,
+  "bestStreak": 4
 }

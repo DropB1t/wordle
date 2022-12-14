@@ -41,7 +41,18 @@ public class User {
 
     public void newGame(String currWord, int secretWordNum) {
         setPlaying(true);
+        setLastGuessedWord(true);
         this.game.newGame(currWord, secretWordNum);
+        return;
+    }
+
+    public void resetGame() {
+        if(isPlaying()){
+            setPlaying(false);
+            this.gamesPlayed++;
+            this.lastStreak = 0;
+        }
+        //this.game = new GameSession();
         return;
     }
 

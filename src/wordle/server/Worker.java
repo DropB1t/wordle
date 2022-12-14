@@ -37,8 +37,7 @@ public class Worker implements Callable<Response> {
                 res = login(req);
                 break;
             case Logout:
-                loggedUsers.remove(clientID);
-                res = new Response(Code.Logout, "");
+                res = logout(true);
                 break;
             case Play:
                 res = play(req);
@@ -93,6 +92,16 @@ public class Worker implements Callable<Response> {
         return new Response(Code.SuccLog, Util.ConsoleColors.GREEN +"Logged in successfully"+ Util.ConsoleColors.RESET);
     }
 
+    private Response logout(boolean resetGame){
+        if(resetGame){
+            User user = loggedUsers.get(clientID);
+            user.resetGame();
+            rsc.saveUser(user);
+        }
+        loggedUsers.remove(clientID);
+        return new Response(Code.Logout, "");
+    }
+
     private Response play(Request req){
         User user = loggedUsers.get(clientID);
         if (user.isPlaying()) {
@@ -100,7 +109,7 @@ public class Worker implements Callable<Response> {
             payload += user.getGuessTable();
             return new Response(Code.ErrPlay, payload);
         }
-        if (user.isLastGuessedWord())
+        if (user.isLastGuessedWord() && wordSession.getSecretWorld().equals(user.currentSecretWord()))
             return new Response(Code.ErrPlay, Util.ConsoleColors.RED + "\nYou have already guessed current secret word. Please wait for the new secret word\n" + Util.ConsoleColors.RESET);
         
         user.newGame(wordSession.getSecretWorld(),wordSession.getSecretWorldNum());
