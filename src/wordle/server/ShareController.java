@@ -7,12 +7,16 @@ import java.net.MulticastSocket;
 
 import wordle.utils.*;
 
+/**
+ * Create MulticastSocket for sharing game posts by sending them to Multicast Group
+ */
 public class ShareController implements AutoCloseable {
     private MulticastSocket shareSocket;
     private DatagramPacket datagram;
     private InetAddress group;
     private int port;
 
+    
     public ShareController(String groupString, int port) throws IOException {
         
         this.port = port;

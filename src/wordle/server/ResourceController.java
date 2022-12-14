@@ -11,6 +11,9 @@ import com.google.gson.TypeAdapter;
 
 import wordle.utils.Util;
 
+/**
+ * ResourceController is responsible of saving and loading persistent state of registered Users
+ */
 public class ResourceController {
     private static final String folder = "./resources/";
 
@@ -34,6 +37,9 @@ public class ResourceController {
         return new File(folder+Util.hash(username)+".json").isFile();
     }
 
+    /**
+     * Load user object from json file
+     */
     public User getUser(String username){
         User user = null;
         try {
@@ -45,6 +51,9 @@ public class ResourceController {
         return user;
     }
 
+    /**
+     * Saves users state into json file
+     */
     public void saveUser(User user){
         try {
             FileWriter writer = new FileWriter(folder + Util.hash(user.getUsername()) + ".json");

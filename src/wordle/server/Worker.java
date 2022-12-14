@@ -37,7 +37,7 @@ public class Worker implements Callable<Response> {
                 res = login(req);
                 break;
             case Logout:
-                res = logout(true);
+                res = logout(false);
                 break;
             case Play:
                 res = play(req);

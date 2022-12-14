@@ -28,6 +28,16 @@ public class WordManager {
     private String secretWorld;
     private int secretWorldNum = 0;
 
+    /**
+     * 
+     * The dictionary will be loaded into a List of String from which Secret Word will be drawn,
+     * and into a HashSet to perfom searching of existing words in O(1)
+     * <p>
+     * wordDrawer is an iterator on integers that simulate effectively unlimited stream of pseudorandom int values
+     * 
+     * @param seed of random number generator for sequence of words
+     * @param sessionDuration duration, in minutes, that one Secret Word will persist
+     */
     public WordManager(long seed, long sessionDuration) {
         this.sessionDuration = sessionDuration * 60 * 1000; // In ms
         Stream<String> stream = null;
@@ -52,6 +62,10 @@ public class WordManager {
         this.setSecretWord();
     }
 
+    /**
+     * Check if the session was expired and update the current Secret Word
+     * @return true if the current Secret Word was updated
+     */
     synchronized public boolean updateSession() {
         long currentTime = System.currentTimeMillis();
         if ((currentTime - this.sessionStart) > this.sessionDuration) {
@@ -65,19 +79,19 @@ public class WordManager {
         return this.wordsDict.contains(guess);
     }
 
-    private void setSecretWord() {
-        this.secretWorld = wordsCollection.get(wordDrawer.next());
-        increaseSecretWorldNum();
-        System.out.println(Util.ConsoleColors.CYAN + "Setting Secret Word n." + this.getSecretWorldNum() + " to " + this.getSecretWorld() + Util.ConsoleColors.RESET);      
-        this.sessionStart = System.currentTimeMillis();
-    }
-
     synchronized public String getSecretWorld() {
         return this.secretWorld;
     }
 
     synchronized public int getSecretWorldNum() {
         return this.secretWorldNum;
+    }
+
+    private void setSecretWord() {
+        this.secretWorld = wordsCollection.get(wordDrawer.next());
+        increaseSecretWorldNum();
+        System.out.println(Util.ConsoleColors.CYAN + "Setting Secret Word n." + this.getSecretWorldNum() + " to " + this.getSecretWorld() + Util.ConsoleColors.RESET);      
+        this.sessionStart = System.currentTimeMillis();
     }
 
     private void increaseSecretWorldNum() {

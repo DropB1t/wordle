@@ -28,6 +28,15 @@ import wordle.utils.Code;
 import wordle.utils.Request;
 import wordle.utils.Util;
 
+/**
+ * Server Controller open and bind ServerSocketChannel in non-blocking mode to accept, read request, dispatch them to workers,
+ * and write/send Response to connected Clients
+ * <p>
+ * Connected clients sockets are stored in a hashmap and mapped to their clientID that are relative to current session
+ * <p>
+ * Logged users are mapped in a different structure ( ConcurrentHashMap ) for supporting full concurrency of retrievals
+ * and high expected concurrency for updates performed by Workers in workersPool
+ */
 public class ServerController implements AutoCloseable {
     private static Integer clientID = 0;
 
@@ -58,6 +67,9 @@ public class ServerController implements AutoCloseable {
         TypeAdapter<Request> reqAdapter = new Gson().getAdapter(Request.class);
         TypeAdapter<Response> resAdapter = new Gson().getAdapter(Response.class);
 
+        /**
+         * Gson instance with registered type adapters to fetch/put Requests/Responses from ByteBuffer
+         */
         gson = new GsonBuilder()
         .registerTypeAdapter(Request.class, reqAdapter)
         .registerTypeAdapter(Response.class, resAdapter)
@@ -97,6 +109,10 @@ public class ServerController implements AutoCloseable {
                 }
             }
 
+            /**
+             * After key for loop selection Controller removes all closed socket channels from both structures (connectedClients & loggedUsers)
+             * If a new Secret Word was generated we update the state of users last guess word so they can guess the new current secret word
+             */
             connectedClients.keySet().removeIf((socketChannel) -> !socketChannel.isOpen());
             synchronized(loggedUsers){loggedUsers.keySet().removeIf((id) -> !connectedClients.containsValue(id));}
 
@@ -105,6 +121,10 @@ public class ServerController implements AutoCloseable {
         }
     }
 
+    /**
+     * Server Controller accept new socket channels, set them to non blocking, register socket to the main selector with read operation
+     * and put the accepted socket into connectedClients with his clientID
+     */
     private void accept(final SelectionKey key) throws IOException{
         ServerSocketChannel socketChannel = (ServerSocketChannel) key.channel();
         SocketChannel socket = socketChannel.accept();
@@ -114,6 +134,10 @@ public class ServerController implements AutoCloseable {
         incClientID();
     }
 
+    /**
+     * Server Controller send Response to ready to read clients if the response is already completed. This is done by checking Future,
+     * attached to the key, object returned by Callable Worker
+     */
     private void write(final SelectionKey key) throws IOException{
         final SocketChannel socket = (SocketChannel) key.channel();
         final Integer clientID = connectedClients.get(socket);
@@ -128,8 +152,11 @@ public class ServerController implements AutoCloseable {
 
         try {
             res = (Response)f.get(1000,TimeUnit.MILLISECONDS);
-        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+        } catch ( TimeoutException e) {
             key.attach(f);
+            return;
+        }catch ( InterruptedException | ExecutionException  e) {
+            Util.printException(e);
             return;
         }
 
@@ -155,6 +182,10 @@ public class ServerController implements AutoCloseable {
         }
     }
 
+    /**
+     * Read the client Request and dispatch it to a workers pool and saving the Future Response by attaching it to the key
+     * After which sets this key's interest set to Write Operation
+     */
     private void read(final SelectionKey key) throws IOException{
         final SocketChannel socket = (SocketChannel) key.channel();
         final Integer clientID = connectedClients.get(socket);
@@ -178,7 +209,6 @@ public class ServerController implements AutoCloseable {
             key.attach(f);
             System.out.println(req.toString());
             
-            //socket.configureBlocking(false);
             key.interestOps(SelectionKey.OP_WRITE);
         } catch (ClosedChannelException e) {
             closeSocket(socket);

@@ -5,6 +5,9 @@ import java.util.concurrent.TimeUnit;
 
 import wordle.utils.Util;
 
+/**
+ * Custom Shutdown Hook that stop Server Controller and perform shutdown of Thread Pool safely
+ */
 public class ServerShutdownHook extends Thread {
 
     private final ServerController server;

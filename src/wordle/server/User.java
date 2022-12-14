@@ -17,6 +17,14 @@ public class User {
     private int lastStreak;
     private int bestStreak;
 
+    /**
+     * @param username - Username
+     * @param psw - Hashed password of the user
+     * @param gamesPlayed - Total played games by user
+     * @param gamesWon - Total won games by user
+     * @param lastStreak - Last win games streak
+     * @param bestStreak - Best win games streak
+     */
     public User(String username, String psw, int gamesPlayed, int gamesWon, int lastStreak, int bestStreak) {
         this.username = username;
         this.psw = psw;
@@ -39,6 +47,9 @@ public class User {
         return psw;
     }
 
+    /**
+     * Set and create new game passing current secret word and its number
+     */
     public void newGame(String currWord, int secretWordNum) {
         setPlaying(true);
         setLastGuessedWord(true);
@@ -56,6 +67,9 @@ public class User {
         return;
     }
 
+    /**
+     * @return Response of taked guess that can be a Win, Lose, or successful word guess
+     */
     public Response takeGuess(String guessWord) {
         game.incGuess();
         String payload = Util.ConsoleColors.WHITE + "\nSecret Word N." + game.getSecretWordNum() + " Guess N. " + game.getGuess() + "/12\n" + Util.ConsoleColors.RESET;
@@ -113,6 +127,9 @@ public class User {
         this.lastGuessedWord = lastGuessedWord;
     }
 
+    /**
+     * @return Statistics of user as a String
+     */
     public String stats(){
         String stats = Util.ConsoleColors.PURPLE;
         stats += "\n" + this.getUsername() + " Stats: \n";

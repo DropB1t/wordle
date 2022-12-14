@@ -2,6 +2,9 @@ package wordle.server;
 
 import wordle.utils.Util;
 
+/**
+ * GameSession is responsible of keep trace of current user session of wordle game
+ */
 public class GameSession {
 
     private String currentSecretWord;
@@ -26,6 +29,9 @@ public class GameSession {
         resetShare();
     }
 
+    /**
+     * Generate advice for user's guess and update respectively guess table and share post
+     */
     public String updateTable(String guessWord){
         int len = currentSecretWord.length();
         for (int i = 0; i < len; i++) {

@@ -17,6 +17,12 @@ public class WordleServerMain {
     private static long seed;
     private static long sessionDuration; // In min
 
+    /**
+     * Main function that run ServerController and instantiate: ThreadPool of workers that will dispatch all incoming Request,
+     * wordSession that sets current Secret Word for each sessionDuration using random generator with a given seed,
+     * shareSocket that will be using to send matches across UDP multicast group
+     * and ServerController that is our non Blocking NIO server 
+     */
     public static void main(String[] args) {
 
         loadProps();
@@ -24,6 +30,7 @@ public class WordleServerMain {
         WordManager wordSession = new WordManager(seed, sessionDuration);
 
         try (ShareController shareSocket = new ShareController(mcgroup, mcport); ServerController server = new ServerController(host, port, workersPool, shareSocket, wordSession)) {
+            //ShutdownHook attached to runtime that will intercept user Ctrl+C signal to close server main loop safely
             Runtime.getRuntime().addShutdownHook(new ServerShutdownHook(server, workersPool));
             server.run();
         } catch (Exception e) {
@@ -32,6 +39,9 @@ public class WordleServerMain {
 
     }
 
+    /**
+     * Load and print all configuration variables using Proprieties class and parsing .config file
+     */
     private static void loadProps() {
         Properties prop = new Properties();
         try (FileInputStream ficonfig = new FileInputStream(config)) {
