@@ -8,6 +8,12 @@ import wordle.utils.Request;
 import wordle.utils.Response;
 import wordle.utils.Util;
 
+/*
+ * Worker class is responsible for digest of incoming requests of clients.
+ * <p>
+ * Main call() method switch his functionality in based on
+ * type operation of the request
+ */
 public class Worker implements Callable<Response> {
 
     private final ConcurrentHashMap<Integer, User> loggedUsers;
@@ -59,6 +65,11 @@ public class Worker implements Callable<Response> {
         return res;
     }
     
+
+    /**
+     * Parse the incoming request payload, structured in username<whitespace>password, checks if the user in not already registered.
+     * If true, create Response message with error code, if false create new user and saves it in json file
+     */
     private Response register(Request req){
         Response res;
         String[] user_psw = req.getPayload().split(" ");
@@ -74,6 +85,10 @@ public class Worker implements Callable<Response> {
         return res;
     }
 
+    /**
+     * Parse the incoming request payload, structured in username<whitespace>password, checks if the user json file exist.
+     * If true, create Response message with successful login and checks if: the user is not already logged in and the password is correct
+     */
     private Response login(Request req){
         String[] user_psw = req.getPayload().split(" ");
 
@@ -92,6 +107,10 @@ public class Worker implements Callable<Response> {
         return new Response(Code.SuccLog, Util.ConsoleColors.GREEN +"Logged in successfully"+ Util.ConsoleColors.RESET);
     }
 
+    /**
+     * Logout method remove client from logged users structure
+     * @param resetGame - If true, after user logout reset user's Game Session so at next login player can access the current Secret Word game 
+     */
     private Response logout(boolean resetGame){
         if(resetGame){
             User user = loggedUsers.get(clientID);
@@ -102,6 +121,11 @@ public class Worker implements Callable<Response> {
         return new Response(Code.Logout, "");
     }
 
+    /**
+     * Play method fetches the user using its clientID, checks if the user is not already playing and if user did not
+     * already used his guess chance of the current secret word. After passing all the checks worker assign new game session to the user
+     * and generate success response to send to the client
+     */
     private Response play(Request req){
         User user = loggedUsers.get(clientID);
         if (user.isPlaying()) {
@@ -117,6 +141,10 @@ public class Worker implements Callable<Response> {
         return new Response(Code.Success, Util.ConsoleColors.GREEN + "You enter the game. Take your guess :)" + Util.ConsoleColors.RESET);
     }
 
+    /**
+     * Guess method fetches the user, checks is the user in game, if true checks if the guessed word exist in the dictionary after which
+     * call user.takeGuess() method to create response message of the given guess
+     */
     private Response guess(Request req){
         User user = loggedUsers.get(clientID);
         if (!user.isPlaying())
@@ -138,6 +166,9 @@ public class Worker implements Callable<Response> {
         return new Response(Code.Success, user.stats());
     }
 
+    /**
+     * Share method fetches the user and sends share message via shareSocket of the last played game
+     */
     private Response share(){
         User user = loggedUsers.get(clientID);
         shareSocket.send(user.getShare());
