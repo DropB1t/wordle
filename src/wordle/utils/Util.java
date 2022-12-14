@@ -1,5 +1,8 @@
 package wordle.utils;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 /**
  * A class of utilities functions
  */
@@ -38,6 +41,28 @@ public class Util {
         System.out.println("Used memory in kilobytes: " + bytesToKilobytes(memory));
         System.out.println("Used memory in megabytes: " + bytesToMegabytes(memory));
         System.out.print(ConsoleColors.RESET);
+    }
+
+    public static String hash(String str){
+        MessageDigest digest = null;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            Util.printException(e);
+        }
+        return bytesToHex(digest.digest(str.getBytes()));
+    }
+
+    private static String bytesToHex(byte[] hash) {
+        StringBuilder hexString = new StringBuilder(2 * hash.length);
+        for (int i = 0; i < hash.length; i++) {
+            String hex = Integer.toHexString(0xff & hash[i]);
+            if(hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
     }
 
     public class ConsoleColors {

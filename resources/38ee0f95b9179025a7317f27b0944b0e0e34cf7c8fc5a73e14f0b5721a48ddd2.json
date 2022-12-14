@@ -1,0 +1,17 @@
+{
+  "username": "DropBit",
+  "psw": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
+  "game": {
+    "currentSecretWord": "confusably",
+    "secretWordNum": 1,
+    "guess": 5,
+    "guessTable": "\u001b[0;32mc \u001b[0;32mo \u001b[0;32mn \u001b[0;32mf \u001b[0;37me \u001b[0;32ms \u001b[0;33ms \u001b[0;37mi \u001b[0;33mo \u001b[0;33mn\n\u001b[0m\u001b[0;32mc \u001b[0;32mo \u001b[0;32mn \u001b[0;32mf \u001b[0;37me \u001b[0;32ms \u001b[0;33ms \u001b[0;33mo \u001b[0;37mr \u001b[0;32my\n\u001b[0m\u001b[0;32mc \u001b[0;32mo \u001b[0;32mn \u001b[0;32mf \u001b[0;37mi \u001b[0;37md \u001b[0;37me \u001b[0;33mn \u001b[0;33mc \u001b[0;32my\n\u001b[0m\u001b[0;32mc \u001b[0;32mo \u001b[0;32mn \u001b[0;32mf \u001b[0;32mu \u001b[0;32ms \u001b[0;32ma \u001b[0;32mb \u001b[0;32ml \u001b[0;37me\n\u001b[0m\u001b[0;32mc \u001b[0;32mo \u001b[0;32mn \u001b[0;32mf \u001b[0;32mu \u001b[0;32ms \u001b[0;32ma \u001b[0;32mb \u001b[0;32ml \u001b[0;32my\n\u001b[0m",
+    "share": "\u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;37m█ \u001b[0;32m█ \u001b[0;33m█ \u001b[0;37m█ \u001b[0;33m█ \u001b[0;33m█\n\u001b[0m\u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;37m█ \u001b[0;32m█ \u001b[0;33m█ \u001b[0;33m█ \u001b[0;37m█ \u001b[0;32m█\n\u001b[0m\u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;37m█ \u001b[0;37m█ \u001b[0;37m█ \u001b[0;33m█ \u001b[0;33m█ \u001b[0;32m█\n\u001b[0m\u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;37m█\n\u001b[0m\u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█\n\u001b[0m"
+  },
+  "playing": false,
+  "lastGuessedWord": true,
+  "gamesPlayed": 0,
+  "gamesWon": 0,
+  "lastStreak": 0,
+  "bestStreak": 0
+}

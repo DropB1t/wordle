@@ -25,7 +25,9 @@ public class ShareController implements AutoCloseable {
         try {
             this.outBuffer = msg.getBytes("UTF-8");
             this.datagram = new DatagramPacket(outBuffer, outBuffer.length);
+            System.out.println("Sending UDP");
             shareSocket.send(datagram);
+            System.out.println("Sended UDP");
         } catch (IOException e) {
             Util.printException(e);
             System.exit(1);

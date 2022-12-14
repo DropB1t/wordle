@@ -1,10 +1,9 @@
 package wordle.server;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,7 +15,6 @@ public class ResourceController {
     private static final String folder = "./resources/";
 
     private final Gson gson;
-    private MessageDigest digest;
 
     public ResourceController() {
         TypeAdapter<User> userAdapter = new Gson().getAdapter(User.class);
@@ -30,42 +28,32 @@ public class ResourceController {
         .setPrettyPrinting()
         .create();
 
-        try {
-            digest = MessageDigest.getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException e) {
-            Util.printException(e);
-        }
     }
     
     public boolean checkIfUserExist(String username){
-        return new File(folder+hash(username)+".json").isFile();
+        return new File(folder+Util.hash(username)+".json").isFile();
+    }
+
+    public User getUser(String username){
+        User user = null;
+        try {
+            FileReader reader = new FileReader(folder + Util.hash(username) + ".json");
+            user = gson.fromJson(reader, User.class);
+        } catch (IOException e) {
+            Util.printException(e);
+        }
+        return user;
     }
 
     public void saveUser(User user){
         try {
-            FileWriter writer = new FileWriter(folder + hash(user.getUsername()) + ".json");
+            FileWriter writer = new FileWriter(folder + Util.hash(user.getUsername()) + ".json");
             gson.toJson(user, writer);
             writer.flush();
             writer.close();
         } catch (IOException e) {
             Util.printException(e);
         }
-    }
-
-    private String hash(String str){
-        return bytesToHex(digest.digest(str.getBytes()));
-    }
-
-    private static String bytesToHex(byte[] hash) {
-        StringBuilder hexString = new StringBuilder(2 * hash.length);
-        for (int i = 0; i < hash.length; i++) {
-            String hex = Integer.toHexString(0xff & hash[i]);
-            if(hex.length() == 1) {
-                hexString.append('0');
-            }
-            hexString.append(hex);
-        }
-        return hexString.toString();
     }
 
 }

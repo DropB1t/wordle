@@ -16,7 +16,7 @@ public class ClientShutdownHook extends Thread {
         } catch (Exception e) {
             Util.printException(e);
         }
-        System.out.print(Util.ConsoleColors.RED + "\n| Forced shutdown of the client |\n" + Util.ConsoleColors.RESET);
+        System.out.print(Util.ConsoleColors.RED + "\n| Closing Client |\n" + Util.ConsoleColors.RESET);
     }
     
 }

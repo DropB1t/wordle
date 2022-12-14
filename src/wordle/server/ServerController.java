@@ -53,7 +53,7 @@ public class ServerController implements AutoCloseable {
         this.wordSession = game;
         this.workersPool = workersPool;
         this.shareSocket = shareSocket;
-        this.buff = ByteBuffer.allocateDirect(1024);
+        this.buff = ByteBuffer.allocateDirect(2048);
 
         TypeAdapter<Request> reqAdapter = new Gson().getAdapter(Request.class);
         TypeAdapter<Response> resAdapter = new Gson().getAdapter(Response.class);
@@ -97,11 +97,11 @@ public class ServerController implements AutoCloseable {
                 }
             }
 
-            if (wordSession.updateSession())
-                synchronized(loggedUsers){ loggedUsers.forEach((id,user) -> user.setPlaying(false)); }
-
             connectedClients.keySet().removeIf((socketChannel) -> !socketChannel.isOpen());
             synchronized(loggedUsers){loggedUsers.keySet().removeIf((id) -> !connectedClients.containsValue(id));}
+
+            if (wordSession.updateSession())
+                synchronized(loggedUsers){ loggedUsers.forEach((id,user) -> user.setLastGuessedWord(false)); }
         }
     }
 
@@ -116,7 +116,7 @@ public class ServerController implements AutoCloseable {
 
     private void write(final SelectionKey key) throws IOException{
         final SocketChannel socket = (SocketChannel) key.channel();
-        //final Integer clientID = connectedClients.get(socket);
+        final Integer clientID = connectedClients.get(socket);
 
         Future<?> f = (Future<?>) key.attachment();
         Response res;
@@ -134,6 +134,7 @@ public class ServerController implements AutoCloseable {
         }
 
         if (res.getCode() == Code.Logout) {
+            System.out.println(Util.ConsoleColors.YELLOW + "Logout client with ID: " + clientID + Util.ConsoleColors.RESET);
             closeSocket(socket);
             return;
         }

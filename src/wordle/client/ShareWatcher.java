@@ -1,7 +1,6 @@
 package wordle.client;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
@@ -40,6 +39,7 @@ public class ShareWatcher implements Runnable, AutoCloseable {
         while(loop.get()){
             try {
                 shareSocket.receive(datagram);
+                System.out.println("Received a share");
                 res = new String(datagram.getData(),0,datagram.getLength(),"UTF-8");
                 sharedList.add(res);
             } catch (IOException e) {
@@ -49,6 +49,7 @@ public class ShareWatcher implements Runnable, AutoCloseable {
     }
 
     synchronized public void printShare() {
+        System.out.print("\n| Shared Posts |\n");
         for (String post : sharedList) {
             System.out.print("\n"+post+"\n");
         }
