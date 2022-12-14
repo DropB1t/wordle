@@ -186,6 +186,7 @@ public class ServerController implements AutoCloseable {
     }
 
     private void closeSocket(final SocketChannel socket) throws IOException {
+        synchronized(loggedUsers){loggedUsers.remove(connectedClients.get(socket));}
         socket.close();
     }
 

@@ -10,24 +10,26 @@ import wordle.utils.*;
 public class ShareController implements AutoCloseable {
     private MulticastSocket shareSocket;
     private DatagramPacket datagram;
-    private byte[] outBuffer;
+    private InetAddress group;
+    private int port;
 
     public ShareController(String groupString, int port) throws IOException {
+        
+        this.port = port;
+        group = InetAddress.getByName(groupString);
         this.shareSocket = new MulticastSocket(port);
-
-        InetAddress group = InetAddress.getByName(groupString);
 
         shareSocket.setReuseAddress(true);
         shareSocket.joinGroup(group);
+
     }
 
-    synchronized public void send(String msg){
+    public void send(String msg){
         try {
-            this.outBuffer = msg.getBytes("UTF-8");
-            this.datagram = new DatagramPacket(outBuffer, outBuffer.length);
-            System.out.println("Sending UDP");
+            //System.out.println(msg);
+            byte[] outBuffer = msg.getBytes();
+            this.datagram = new DatagramPacket(outBuffer, outBuffer.length, group, port);
             shareSocket.send(datagram);
-            System.out.println("Sended UDP");
         } catch (IOException e) {
             Util.printException(e);
             System.exit(1);

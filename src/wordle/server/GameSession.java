@@ -44,8 +44,8 @@ public class GameSession {
                 share += " ";
             }
         }
-        guessTable += "\n" + Util.ConsoleColors.RESET;
-        share += "\n" + Util.ConsoleColors.RESET;
+        guessTable += Util.ConsoleColors.RESET + "\n";
+        share += Util.ConsoleColors.RESET + "\n\n";
         return guessTable;
     }
 

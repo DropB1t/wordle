@@ -4,14 +4,14 @@
   "game": {
     "currentSecretWord": "confusably",
     "secretWordNum": 1,
-    "guess": 5,
-    "guessTable": "\u001b[0;32mc \u001b[0;32mo \u001b[0;32mn \u001b[0;32mf \u001b[0;37me \u001b[0;32ms \u001b[0;33ms \u001b[0;37mi \u001b[0;33mo \u001b[0;33mn\n\u001b[0m\u001b[0;32mc \u001b[0;32mo \u001b[0;32mn \u001b[0;32mf \u001b[0;37me \u001b[0;32ms \u001b[0;33ms \u001b[0;33mo \u001b[0;37mr \u001b[0;32my\n\u001b[0m\u001b[0;32mc \u001b[0;32mo \u001b[0;32mn \u001b[0;32mf \u001b[0;37mi \u001b[0;37md \u001b[0;37me \u001b[0;33mn \u001b[0;33mc \u001b[0;32my\n\u001b[0m\u001b[0;32mc \u001b[0;32mo \u001b[0;32mn \u001b[0;32mf \u001b[0;32mu \u001b[0;32ms \u001b[0;32ma \u001b[0;32mb \u001b[0;32ml \u001b[0;37me\n\u001b[0m\u001b[0;32mc \u001b[0;32mo \u001b[0;32mn \u001b[0;32mf \u001b[0;32mu \u001b[0;32ms \u001b[0;32ma \u001b[0;32mb \u001b[0;32ml \u001b[0;32my\n\u001b[0m",
-    "share": "\u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;37m█ \u001b[0;32m█ \u001b[0;33m█ \u001b[0;37m█ \u001b[0;33m█ \u001b[0;33m█\n\u001b[0m\u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;37m█ \u001b[0;32m█ \u001b[0;33m█ \u001b[0;33m█ \u001b[0;37m█ \u001b[0;32m█\n\u001b[0m\u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;37m█ \u001b[0;37m█ \u001b[0;37m█ \u001b[0;33m█ \u001b[0;33m█ \u001b[0;32m█\n\u001b[0m\u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;37m█\n\u001b[0m\u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█\n\u001b[0m"
+    "guess": 4,
+    "guessTable": "\u001b[0;32mc \u001b[0;32mo \u001b[0;32mn \u001b[0;32mf \u001b[0;33mo \u001b[0;37mr \u001b[0;37mm \u001b[0;33ma \u001b[0;37mt \u001b[0;37me\u001b[0m\n\u001b[0;32mc \u001b[0;32mo \u001b[0;32mn \u001b[0;37mg \u001b[0;37mr \u001b[0;37me \u001b[0;33ms \u001b[0;33ms \u001b[0;37me \u001b[0;37mr\u001b[0m\n\u001b[0;32mc \u001b[0;32mo \u001b[0;32mn \u001b[0;32mf \u001b[0;32mu \u001b[0;32ms \u001b[0;32ma \u001b[0;32mb \u001b[0;32ml \u001b[0;37me\u001b[0m\n\u001b[0;32mc \u001b[0;32mo \u001b[0;32mn \u001b[0;32mf \u001b[0;32mu \u001b[0;32ms \u001b[0;32ma \u001b[0;32mb \u001b[0;32ml \u001b[0;32my\u001b[0m\n",
+    "share": "\u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;33m█ \u001b[0;37m█ \u001b[0;37m█ \u001b[0;33m█ \u001b[0;37m█ \u001b[0;37m█\u001b[0m\n\n\u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;37m█ \u001b[0;37m█ \u001b[0;37m█ \u001b[0;33m█ \u001b[0;33m█ \u001b[0;37m█ \u001b[0;37m█\u001b[0m\n\n\u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;37m█\u001b[0m\n\n\u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█ \u001b[0;32m█\u001b[0m\n\n"
   },
   "playing": false,
   "lastGuessedWord": true,
-  "gamesPlayed": 0,
-  "gamesWon": 0,
-  "lastStreak": 0,
-  "bestStreak": 0
+  "gamesPlayed": 5,
+  "gamesWon": 4,
+  "lastStreak": 2,
+  "bestStreak": 2
 }

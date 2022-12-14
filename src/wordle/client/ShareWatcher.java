@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -39,9 +40,11 @@ public class ShareWatcher implements Runnable, AutoCloseable {
         while(loop.get()){
             try {
                 shareSocket.receive(datagram);
-                System.out.println("Received a share");
-                res = new String(datagram.getData(),0,datagram.getLength(),"UTF-8");
+                res = new String(datagram.getData(),0,datagram.getLength());
                 sharedList.add(res);
+                datagram.setLength(buff.length);
+            } catch (SocketException e) {
+                System.out.println("Leaving Multicast Group ...");
             } catch (IOException e) {
                 Util.printException(e);
             }

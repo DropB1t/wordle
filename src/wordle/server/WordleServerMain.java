@@ -57,9 +57,9 @@ public class WordleServerMain {
         System.out.println(" Host: " + host);
         System.out.println(" Port: " + port);
         System.out.println(" MusticastGroup: " + mcgroup);
-        System.out.println(" MulticastPort:" + mcport);
+        System.out.println(" MulticastPort: " + mcport);
         System.out.println(" ThreadPoolSize: " + poolsize);
-        System.out.println(" SessionDuration: " + sessionDuration);
+        System.out.println(" SessionDuration: " + sessionDuration + " min");
         System.out.println(" Seed: " + seed);
         System.out.println("[=================]\n");
         System.out.print(Util.ConsoleColors.RESET);

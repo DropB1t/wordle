@@ -87,8 +87,9 @@ public class Worker implements Callable<Response> {
             if(!user.getPsw().equals(user_psw[1]))
                 return new Response(Code.ErrPsw, Util.ConsoleColors.RED + "Password incorrect, please retry"+ Util.ConsoleColors.RESET);
             loggedUsers.putIfAbsent(clientID, user);
+            if(!wordSession.getSecretWorld().equals(user.currentSecretWord()) && user.isLastGuessedWord())
+                user.setLastGuessedWord(false);
         }
-
         return new Response(Code.SuccLog, Util.ConsoleColors.GREEN +"Logged in successfully"+ Util.ConsoleColors.RESET);
     }
 

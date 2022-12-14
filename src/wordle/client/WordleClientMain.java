@@ -17,6 +17,7 @@ public class WordleClientMain {
         loadProps();
         try (ShareWatcher watcher = new ShareWatcher(mcgroup, mcport); Client client = new Client(host, port, watcher)) {
             Runtime.getRuntime().addShutdownHook(new ClientShutdownHook(client));
+            new Thread(watcher).start();
             client.run();
         } catch (IOException e) {
             Util.printException(e);

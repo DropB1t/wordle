@@ -47,29 +47,37 @@ public class User {
 
     public Response takeGuess(String guessWord) {
         game.incGuess();
-        String payload = "Secret Word N." + game.getSecretWordNum() + " Guess N. " + game.getGuess() + "/12\n";
+        String payload = Util.ConsoleColors.WHITE + "\nSecret Word N." + game.getSecretWordNum() + " Guess N. " + game.getGuess() + "/12\n" + Util.ConsoleColors.RESET;
         payload += game.updateTable(guessWord);
         if (guessWord.equals(game.getCurrentSecretWord())){
             setPlaying(false);
-            payload += Util.ConsoleColors.GREEN + "You Won!" + Util.ConsoleColors.RESET + "\n";
+            this.gamesPlayed++;
+            this.gamesWon++;
+            this.lastStreak++;
+            if(this.lastStreak > this.bestStreak)
+                this.bestStreak = this.lastStreak;
+            payload += Util.ConsoleColors.GREEN + "\nYou Won!" + Util.ConsoleColors.RESET + "\n";
             return new Response(Code.Win, payload);
         }
         if(game.getGuess() == 12){
             setPlaying(false);
-            payload += Util.ConsoleColors.YELLOW + "Sorry you lost :C" + Util.ConsoleColors.RESET + "\n";
+            this.gamesPlayed++;
+            this.lastStreak = 0;
+            payload += Util.ConsoleColors.YELLOW + "\nSorry you lost :C" + Util.ConsoleColors.RESET + "\n";
             return new Response(Code.Lose, payload);
         }
         return new Response(Code.Success, payload);
     }
 
     public String getGuessTable(){
-        String payload = "Secret Word N." + game.getSecretWordNum() + " Guess N." + game.getGuess() + "/12\n";
+        String payload = Util.ConsoleColors.WHITE + "\nSecret Word N." + game.getSecretWordNum() + " Guess N." + game.getGuess() + "/12\n" + Util.ConsoleColors.RESET;
         payload += game.getGuessTable();
         return payload;
     }
 
     public String getShare(){
-        String payload = "Secret Word N." + game.getSecretWordNum() + " Guesses " + game.getGuess() + "/12\n";
+        String payload = Util.ConsoleColors.PURPLE + "\nUser: " +  this.getUsername() + Util.ConsoleColors.RESET;
+        payload += Util.ConsoleColors.WHITE + "\nSecret Word N." + game.getSecretWordNum() + " Guesses " + game.getGuess() + "/12\n" + Util.ConsoleColors.RESET;
         payload += game.getShare();
         return payload;
     }
