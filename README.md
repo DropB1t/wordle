@@ -1,7 +1,5 @@
 # wordle
-> **Yuriy Rymarchuk** ~ LPR-22-23
 
-Final project for networks lab course
 Guess the Wordle in 12 tries. Each guess must be a valid 10-letter word. The color of the tiles will change to show how close your guess was to the word.
 
 ## Usage
